@@ -15,6 +15,8 @@ typedef void (^EmptyPageDidClickReloadBlock)(void);
 
 @interface UIView (EmptyPage)
 
+- (void)hideEmptyPage;
+
 - (void)showEmptyPage:(CGFloat)y imageName:(NSString *)imageName imageFrame:(CGRect)imageFrame didClickReloadBlock:(EmptyPageDidClickReloadBlock)didClickReloadBlock;
 
 @end

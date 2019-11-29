@@ -16,7 +16,16 @@
 
 @implementation UIView (EmptyPage)
 
+
 static NSString *emptyPageDidClickReloadBlockKey = @"emptyPageDidClickReloadBlockKey";
+
+- (void)hideEmptyPage {
+    for (UIView *view in self.subviews) {
+        if (view.tag == 10 || view.tag == 20|| view.tag ==30) {
+            [view removeFromSuperview];
+        }
+    }
+}
 
 - (EmptyPageDidClickReloadBlock)didClickReloadBlock {
     return objc_getAssociatedObject(self, &emptyPageDidClickReloadBlockKey);
@@ -28,14 +37,17 @@ static NSString *emptyPageDidClickReloadBlockKey = @"emptyPageDidClickReloadBloc
 
 - (void)showEmptyPage:(CGFloat)y imageName:(NSString *)imageName imageFrame:(CGRect)imageFrame didClickReloadBlock:(EmptyPageDidClickReloadBlock)didClickReloadBlock{
     UIView *backView = [[UIView alloc]init];
+    backView.tag = 10;
     backView.backgroundColor = [UIColor whiteColor];
     backView.frame = CGRectMake(0, y, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height - y);
     [self addSubview:backView];
     UIImageView *imageView = [[UIImageView alloc]initWithFrame:imageFrame];
     imageView.image = [UIImage imageNamed:imageName];
     imageView.contentMode = UIViewContentModeScaleAspectFill;
+    imageView.tag = 20;
     UIButton *button = [[UIButton alloc]initWithFrame:CGRectMake(CGRectGetMinX(imageView.frame), CGRectGetMaxY(imageView.frame) + 10, imageFrame.size.width, 30)];
     [button setTitle:@"点击重试" forState:UIControlStateNormal];
+    button.tag = 30;
     button.titleLabel.font = [UIFont systemFontOfSize:12];
     [button setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
     [button addTarget:self action:@selector(clickButton) forControlEvents:UIControlEventTouchUpInside];
